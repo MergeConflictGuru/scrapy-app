@@ -1,0 +1,4 @@
+scrapy
+pg8000
+Flask
+selenium

@@ -1,0 +1,34 @@
+version: '3'
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: C0mpl3xP@ss#2023
+      POSTGRES_DB: scrapy_db
+  selenium:
+    image: selenium/standalone-chrome:latest
+  scraper:
+    build: .
+    depends_on:
+      - db
+      - selenium
+    command:
+      python3 scraper.py
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: C0mpl3xP@ss#2023
+      POSTGRES_DB: scrapy_db
+  web:
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    command:
+      python3 app.py
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: C0mpl3xP@ss#2023
+      POSTGRES_DB: scrapy_db
